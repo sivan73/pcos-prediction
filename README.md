@@ -49,7 +49,7 @@ source venv/bin/activate  # or venv\Scripts\activate on Windows
 python app.py
 
 ## About the Models
-CatBoost & XGBoost: Trained on preprocessed PCOS dataset with hybrid feature selection.
+CatBoost & Random Forests : Trained on preprocessed PCOS dataset with hybrid feature selection and ensembled the models using soft voting
 
 Explainability: Each prediction is explained for the risk score with the major contributing factors and their weightage
 
