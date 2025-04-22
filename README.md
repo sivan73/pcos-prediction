@@ -62,7 +62,7 @@ See the LICENSE file for details.
 ## Author
 
 Sivanesan R R
-sivan.offcl@gmail.com
+[Mail](sivan.offcl@gmail.com)
 [Github](https://github.com/sivan73)
 
 ## Future Enhancements
