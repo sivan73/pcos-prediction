@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCOS Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>PCOS Risk Assessment</h1>
+        <form id="pcos-form" method="POST" action="/predict">
+            <!-- Step 1: Meet You! -->
+            <div class="form-step active" id="step1">
+                <div class="form-header">
+                    <h2>Let’s start with some basics — because no one knows you better than you! 💁‍♀️</h2>
+                </div>
+                <div class="form-group">
+                    <label for="name">What’s your name?</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">How old are you?</label>
+                    <input type="number" id="age" name="Age_yrs" placeholder="Enter your age" required>
+                </div>
+                <div class="form-group">
+                    <label for="weight">What’s your weight (Kg)?</label>
+                    <input type="number" id="weight" name="Weight_Kg" placeholder="Enter your weight" required>
+                </div>
+                <div class="form-group">
+                    <label for="height">What’s your height (Cm)?</label>
+                    <input type="number" id="height" name="HeightCm" placeholder="Enter your height" required>
+                </div>
+                <div class="form-group">
+                    <label for="bmi">Your BMI</label>
+                    <input type="text" id="bmi" name="BMI" placeholder="BMI" readonly>
+                    <p class="tooltip">BMI helps us understand if your weight is proportionate to your height — but don’t worry, you’re more than just a number 💚</p>
+                </div>
+                <div class="form-group">
+                    <label for="bloodGroup">Blood Group</label>
+                    <select id="bloodGroup" name="Blood_Group" required>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="maritalStatus">Marital Status (years)</label>
+                    <input type="number" class="form-control" id="maritalStatus" name="Marriage_Status_Yrs" placeholder="Enter years married (optional)">
+                </div>
+                <div class="form-group">
+                    <label for="pregnant">Are you pregnant?</label>
+                    <select id="pregnant" name="PregnantYN" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="abortions">Number of Abortions</label>
+                    <input type="number" id="abortions" name="No_of_abortions" placeholder="Enter number" required>
+                </div>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+
+            <!-- Step 2: Your Monthly Rhythm -->
+            <div class="form-step" id="step2">
+                <div class="form-header">
+                    <h2>Understanding your cycle helps us see the full picture 🗓️✨ Let’s go, one step at a time.</h2>
+                </div>
+                <div class="form-group">
+                    <label for="cycleRegular">Is your cycle regular?</label>
+                    <select id="cycleRegular" name="CycleRI" required>
+                        <option value="regular">Regular</option>
+                        <option value="irregular">Irregular</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cycleLength">Cycle length (days)</label>
+                    <input type="number" id="cycleLength" name="Cycle_lengthdays" placeholder="Enter cycle length" required>
+                </div>
+                <div class="form-group">
+                    <label>Hair Loss</label>
+                    <select id="hairLoss" name="Hair_lossYN" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hair Growth</label>
+                    <select id="hairGrowth" name="hair_growthYN" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Skin Darkening</label>
+                    <select id="skinDarkening" name="Skin_darkening_YN" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Pimples</label>
+                    <select id="pimples" name="PimplesYN" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Weight Gain</label>
+                    <select id="weightGain" name="Weight_gainYN" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <p class="tooltip">💡 Friendly Fact: Hormones can sometimes throw surprise parties. These symptoms help us track who's on the guest list 🎉</p>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+
+            <!-- Step 3: Your Lifestyle & Vitals -->
+            <div class="form-step" id="step3">
+                <div class="form-header">
+                    <h2>Now tell us how you live your awesome life! 🏃‍♀️🍟</h2>
+                    <p class="tooltip">💡 Did You Know? Just 20 minutes of light exercise can boost your mood and memory. Now that’s a power-up! ⚡</p>
+                </div>
+                <div class="form-group">
+                    <label>Do you eat fast food often?</label>
+                    <select id="fastFood" name="Fast_food_YN" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Do you exercise regularly?</label>
+                    <select id="exerciseRegularly" name="RegExerciseYN" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pulseRate">Pulse Rate (bpm)</label>
+                    <input type="number" id="pulseRate" name="Pulse_ratebpm" required>
+                </div>
+                <div class="form-group">
+                    <label for="respiratoryRate">Respiratory Rate (breaths/min)</label>
+                    <input type="number" id="respiratoryRate" name="RR_breathsmin" required>
+                </div>
+                <div class="form-group">
+                    <label for="bpSystolic">BP Systolic (mmHg)</label>
+                    <input type="number" id="bpSystolic" name="BP__Systolic_mmHg" required>
+                </div>
+                <div class="form-group">
+                    <label for="bpDiastolic">BP Diastolic (mmHg)</label>
+                    <input type="number" id="bpDiastolic" name="BP__Diastolic_mmHg" required>
+                </div>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+
+            <!-- Step 4: Report Time -->
+            <div class="form-step" id="step4">
+                <div class="form-header">
+                    <h2>Got a lab report? Let’s decode it together. 💖</h2>
+                    <p class="tooltip">No worries if you don’t have everything — just fill what you can!</p>
+                </div>
+                <div class="form-group">
+                    <label for="hemoglobin">Hemoglobin (Hb)</label>
+                    <input type="number" id="hemoglobin" name="Hbgdl">
+                    <p class="tooltip">Oxygen carriers of the body — like Uber for your cells 🚕</p>
+                </div>
+                <div class="form-group">
+                    <label for="fsh">FSH</label>
+                    <input type="number" id="fsh" name="FSHmIUmL">
+                    <p class="tooltip">Helps grow those tiny egg follicles — kind of like a gardener 🌱</p>
+                </div>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+
+            <!-- Step 5: Measurements -->
+            <div class="form-step" id="step5">
+                <div class="form-header">
+                    <h2>Almost there! Let’s record your measurements 📋</h2>
+                    <p class="tooltip">Fun Fact: The uterus lining (endometrium) thickens each month to prepare for pregnancy! 🍽️</p>
+                </div>
+                <div class="form-group">
+                    <label for="waist">Waist (inches)</label>
+                    <input type="number" id="waist" name="Waistinch">
+                </div>
+                <div class="form-group">
+                    <label for="hip">Hip (inches)</label>
+                    <input type="number" id="hip" name="Hipinch">
+                </div>
+                <button type="button" class="next-btn">Review</button>
+            </div>
+
+            <!-- Review -->
+            <div class="form-step" id="review">
+                <div class="form-header">
+                    <h2>Review Your Details</h2>
+                </div>
+                <div class="review-details">
+                    <!-- Dynamic details will be populated here from the previous steps -->
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
