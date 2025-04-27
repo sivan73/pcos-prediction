@@ -29,6 +29,12 @@ explainer = lime.lime_tabular.LimeTabularExplainer(
     mode='classification'
 )
 
+# Blood group mapping
+blood_group_mapping = {
+    'A-': 11, 'A+': 12, 'B-': 13, 'B+': 14,
+    'O-': 15, 'O+': 16, 'AB-': 17, 'AB+': 18
+}
+
 # Step 1: Choose manual or upload
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -87,36 +93,30 @@ def step6():
         session['blood_group'] = request.form.get('blood_group')
         session['hb'] = request.form.get('hb')
         session['fs_hl'] = request.form.get('fs_hl')  # Collect additional data as needed
-        return redirect(url_for('summary'))  # Proceed to summary page
+        return redirect(url_for('step7'))  # Proceed to step 7
     return render_template('manual/step6.html')  # Render Step 6 form
 
-#Step 7 
+# Step 7: Blood Pressure & Glucose
 @app.route('/step7', methods=['GET', 'POST'])
 def step7():
     if request.method == 'POST':
-        blood_glucose = request.form.get('blood_glucose')
-        bp_systolic = request.form.get('bp_systolic')
-        bp_diastolic = request.form.get('bp_diastolic')
-        vitamin_d3 = request.form.get('vitamin_d3')
-        pulse_rate = request.form.get('pulse_rate')
-        hb = request.form.get('hb')
-        # Store the data as needed, e.g., in session or a database
+        session['blood_glucose'] = request.form.get('blood_glucose')
+        session['bp_systolic'] = request.form.get('bp_systolic')
+        session['bp_diastolic'] = request.form.get('bp_diastolic')
+        session['vitamin_d3'] = request.form.get('vitamin_d3')
+        session['pulse_rate'] = request.form.get('pulse_rate')
         return redirect(url_for('step8'))  # Proceed to step 8
+    return render_template('manual/step7.html')
 
-    return render_template('step7.html')
-
-#Step 8
+# Step 8: Hair Loss, Skin Darkening, Weight Gain
 @app.route('/step8', methods=['GET', 'POST'])
 def step8():
     if request.method == 'POST':
-        pimples = request.form.get('pimples')
-        hair_loss = request.form.get('hair_loss')
-        skin_darkening = request.form.get('skin_darkening')
-        weight_gain = request.form.get('weight_gain')
-        # Store the data as needed
+        session['hair_loss'] = request.form.get('hair_loss')
+        session['skin_darkening'] = request.form.get('skin_darkening')
+        session['weight_gain'] = request.form.get('weight_gain')
         return redirect(url_for('summary'))  # Proceed to summary page
-
-    return render_template('step8.html')
+    return render_template('manual/step8.html')
 
 # Step for Uploading Medical Report (Placeholder)
 @app.route('/upload', methods=['GET', 'POST'])
@@ -130,73 +130,37 @@ def upload_report():
 # Summary of all collected session data
 @app.route('/summary')
 def summary():
-    return render_template('summary.html', data=session)  # Display all collected data
+    return render_template('summary.html', feature_names=feature_names)  # Pass feature_names to summary
 
 # Prediction route
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Initialize an empty list for user input
     user_input = []
 
-    # Blood group mapping
-    blood_group_mapping = {
-        'A-': 11, 'A+': 12, 'B-': 13, 'B+': 14,
-        'O-': 15, 'O+': 16, 'AB-': 17, 'AB+': 18
-    }
-
-@app.route('/questionnaire/<int:step>', methods=['GET', 'POST'])
-def questionnaire(step):
-    if request.method == 'POST':
-        for key in request.form:
-            session[key] = request.form[key]
-        
-        if step == 8:
-            return redirect(url_for('summary'))
-        return redirect(url_for('questionnaire', step=step+1))
-    
-    # Pass progress info to template
-    return render_template(
-        f'step{step}.html',
-        current_step=step,
-        total_steps=8
-    )
-
-# Add new summary route
-@app.route('/summary')
-def summary():
-    return render_template('summary.html')
-
-
-
-    # Collect user input from the form
     for feature in feature_names:
-        value = session.get(feature, None)
+        value = session.get(feature)
+
         if feature == 'Blood_Group':
-            # Map blood group to its corresponding number
-            user_input.append(blood_group_mapping.get(value, 0))  # Default to 0 if not found
-        elif feature in ['CycleRI', 'Hair_lossYN', 'hair_growthYN', 'Skin_darkening_YN', 'PimplesYN', 'Weight_gainYN', 'Fast_food_YN', 'RegExerciseYN']:
-            # For categorical features, append the string value directly
-            user_input.append(value)
+            user_input.append(blood_group_mapping.get(value, 0))
+        elif value is not None:
+            try:
+                user_input.append(float(value))
+            except ValueError:
+                user_input.append(0.0)  # Fallback to 0 if conversion fails
         else:
-            # For numerical features, convert to float
-            user_input.append(float(value) if value else 0)
+            user_input.append(0.0)  # Default value if feature is missing
 
-    # Create DataFrame for input
     input_df = pd.DataFrame([user_input], columns=feature_names)
-
-    # Scale the input
     input_scaled = scaler.transform(input_df)
 
-    # Predict using the ensemble model
     prediction = model.predict(input_scaled)[0]
-    risk_score = model.predict_proba(input_scaled)[0][1]  # Probability of PCOS
+    risk_score = model.predict_proba(input_scaled)[0][1]
     result = "PCOS Detected" if prediction == 1 else "No PCOS Detected"
 
-    # LIME explanation
     explanation = explainer.explain_instance(
         data_row=input_scaled[0],
         predict_fn=model.predict_proba,
-        num_features=5  # Show top 5 contributing features
+        num_features=5
     )
     lime_html = explanation.as_html()
 

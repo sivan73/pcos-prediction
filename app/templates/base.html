@@ -3,15 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PCOS Companion</title>
+  <title>PCOS Health Companion</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <style>
+    body {
+      background: #fceff9;
+      font-family: 'Poppins', sans-serif;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      color: #b65fcf;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #7b3b8c;
+    }
+    .progress-container {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+    .step-indicator {
+      text-align: center;
+      font-weight: 600;
+      color: #7b3b8c;
+      font-size: 1.2rem;
+    }
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #999;
+      font-size: 0.9rem;
+    }
+  </style>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-  <div class="container">
+  <div class="container py-4">
     <header>
       <h1>🌸 PCOS Health Companion</h1>
       <p class="subtitle">Your Personalized Early Support System</p>
     </header>
+
+    <div class="container py-4">
+      <div class="progress-container mb-4">
+          <div class="progress" style="height: 20px; background-color: #e9ecef;">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                   role="progressbar" 
+                   style="width: {{ (current_step / total_steps) * 100 }}%;" 
+                   aria-valuenow="{{ (current_step / total_steps) * 100 }}" 
+                   aria-valuemin="0" 
+                   aria-valuemax="100">
+                  Step {{ current_step }} of {{ total_steps }}
+              </div>
+          </div>
+      </div>
+  
+      <div>
+          Current Step: {{ current_step }} <br>
+          Total Steps: {{ total_steps }}
+      </div>
+  </div>
+  
+    
 
     <main>
       {% block content %}
@@ -22,35 +89,7 @@
       <p>&copy; 2025 PCOS Prediction App | Designed with 💖</p>
     </footer>
   </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>PCOS Prediction System</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <style>
-        .progress-container {
-            margin: 20px auto;
-            max-width: 800px;
-        }
-        .step-indicator {
-            text-align: center;
-            margin: 10px 0;
-            font-weight: 500;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-    <div class="container py-4">
-        <div class="progress-container">
-            
-            <div class="step-indicator">
-                Step {{ current_step }} of {{ total_steps }}
-            </div>
-        </div>
-        {% block content %}{% endblock %}
-    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
