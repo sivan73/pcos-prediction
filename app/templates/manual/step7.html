@@ -1,64 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Vital Signs & Nutrients</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body class="onboarding">
-  <div class="container">
-    <h1>🧬 Vital Vibes</h1>
-    <p class="tagline">Step 6: Let’s quickly capture your metabolic health!</p>
-
-    <form action="{{ url_for('step8') }}" method="POST" class="form-step">
-      <div class="input-group">
-        <label for="blood_glucose">Blood Glucose (Fasting) (mg/dL)
-          <span class="tooltip" title="Measured after 8-12 hours of fasting. Helps assess insulin resistance.">❔</span>
-        </label>
-        <input type="number" step="0.1" id="blood_glucose" name="blood_glucose" placeholder="e.g., 95.0" required>
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow">
+  <div class="card-body">
+    <h4 class="mb-3">Step 7: Additional Health Metrics</h4>
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label">Vitamin D3 (ng/mL)</label>
+        <input type="number" class="form-control" name="vitamin_d3" min="0" max="100" step="0.1" required>
       </div>
-
-      <div class="input-group">
-        <label for="bp_systolic">Systolic Blood Pressure (mmHg)
-          <span class="tooltip" title="The upper number. Pressure during heartbeats.">❔</span>
-        </label>
-        <input type="number" id="bp_systolic" name="bp_systolic" placeholder="e.g., 120" required>
+      <div class="mb-3">
+        <label class="form-label">Pulse Rate (bpm)</label>
+        <input type="number" class="form-control" name="pulse_rate" min="40" max="180" required>
       </div>
-
-      <div class="input-group">
-        <label for="bp_diastolic">Diastolic Blood Pressure (mmHg)
-          <span class="tooltip" title="The lower number. Pressure between beats.">❔</span>
-        </label>
-        <input type="number" id="bp_diastolic" name="bp_diastolic" placeholder="e.g., 80" required>
-      </div>
-
-      <div class="input-group">
-        <label for="vitamin_d3">Vitamin D3 (ng/mL)
-          <span class="tooltip" title="Low levels are often found in PCOS patients.">❔</span>
-        </label>
-        <input type="number" step="0.1" id="vitamin_d3" name="vitamin_d3" placeholder="e.g., 25.0" required>
-      </div>
-
-      <div class="input-group">
-        <label for="pulse_rate">Pulse Rate (bpm)
-          <span class="tooltip" title="Resting heart rate. Can reflect metabolic health.">❔</span>
-        </label>
-        <input type="number" id="pulse_rate" name="pulse_rate" placeholder="e.g., 76" required>
-      </div>
-
-      <div class="input-group">
-        <label for="hb">Hemoglobin (Hb) (g/dL)
-          <span class="tooltip" title="Low Hb could indicate anemia, common in PCOS.">❔</span>
-        </label>
-        <input type="number" step="0.1" id="hb" name="hb" placeholder="e.g., 13.2" required>
-      </div>
-
-      <button type="submit" class="next-btn">Next →</button>
+      <button type="submit" class="btn btn-primary">Next &rarr;</button>
     </form>
-
-    <div class="trivia">
-      <p>💡 Did You Know? Studies show women with PCOS are 2x more likely to be Vitamin D deficient!</p>
-    </div>
   </div>
-</body>
-</html>
+</div>
+{% endblock %}

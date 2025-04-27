@@ -1,33 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Review & Predict</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body class="summary">
-  <div class="container">
-    <h1>🔍 Review Your Details</h1>
-    <p class="tagline">Make sure everything looks good before we proceed.</p>
+<!-- templates/summary.html -->
+{% extends "base.html" %}
 
-    <div class="review-section">
-      {% for key, value in session_data.items() %}
-        <div class="review-item">
-          <strong>{{ key.replace("_", " ").title() }}:</strong> {{ value }}
+{% block content %}
+<div class="card shadow">
+    <div class="card-body">
+        <h3 class="mb-4">🔍 Review Your Details</h3>
+        <p class="text-muted mb-4">Verify your information before prediction</p>
+
+        <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+            {% for feature in feature_names %}
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-capitalize">
+                                {{ feature.replace('_', ' ') }}
+                            </h5>
+                            <p class="card-text">
+                                {{ session.get(feature, 'Not provided') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-      {% endfor %}
-    </div>
 
-    <div class="actions">
-      <a href="{{ url_for('manual_step1') }}" class="back-btn">← Edit Info</a>
-      <form action="{{ url_for('predict_manual') }}" method="POST" style="display:inline;">
-        <button type="submit" class="next-btn">🔮 Predict My PCOS Risk</button>
-      </form>
-    </div>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ url_for('questionnaire', step=8) }}" class="btn btn-outline-secondary">
+                ← Edit Information
+            </a>
+            <form action="{{ url_for('predict') }}" method="POST">
+                <button type="submit" class="btn btn-primary">
+                    🔮 Predict PCOS Risk
+                </button>
+            </form>
+        </div>
 
-    <div class="trivia">
-      <p>🧠 Trivia: PCOS affects nearly 1 in 5 women in India. Early detection can be life-changing. Let’s find out how you’re doing!</p>
+        <div class="alert alert-info mt-4">
+            <h5>🧠 Did You Know?</h5>
+            <p class="mb-0">
+                PCOS affects nearly 1 in 5 women in India. Early detection through 
+                tools like this can help manage symptoms effectively.
+            </p>
+        </div>
     </div>
-  </div>
-</body>
-</html>
+</div>
+{% endblock %}

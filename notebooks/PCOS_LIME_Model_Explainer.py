@@ -1,7 +1,7 @@
 
 # PCOS Prediction and Explanation using Ensemble Model (CatBoost + RandomForest) with LIME
 
-## 📦 Import Libraries
+##  Import Libraries
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 
 # --------------------------------------------
-## 📂 Load and Preprocess the Dataset
+## Load and Preprocess the Dataset
 df = pd.read_csv('../data/PCOS_data.csv')
 
 # Clean column names

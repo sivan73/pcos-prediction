@@ -1,32 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Your Body Basics</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body class="onboarding">
-    <div class="container">
-        <h1>📏 Let's Talk Numbers</h1>
-        <p class="tagline">Step 2: We need your height and weight to understand your BMI 💪</p>
-
-        <form action="{{ url_for('step4') }}" method="POST" class="form-step">
-            <div class="input-group">
-                <label for="height">📐 Height (in cm)</label>
-                <input type="number" id="height" name="height" placeholder="e.g., 165" min="100" max="220" required>
-            </div>
-
-            <div class="input-group">
-                <label for="weight">⚖️ Weight (in kg)</label>
-                <input type="number" id="weight" name="weight" placeholder="e.g., 60" min="30" max="150" required>
-            </div>
-
-            <button type="submit" class="next-btn">Next →</button>
-        </form>
-
-        <div class="trivia">
-            <p>💡 Trivia: Did you know? BMI stands for Body Mass Index, and it helps us understand if your weight is within a healthy range for your height!</p>
-        </div>
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow">
+  <div class="card-body">
+    <h4 class="mb-3">Step 3: Menstrual Cycle Details</h4>
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label">Average Cycle Length (days)</label>
+        <input type="number" class="form-control" name="cycle_length" min="15" max="45" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Are you currently pregnant?</label>
+        <select class="form-select" name="pregnancy_status" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Number of Abortions (if any)</label>
+        <input type="number" class="form-control" name="abortions" min="0" max="10" value="0" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Next &rarr;</button>
+    </form>
+    <div class="mt-3 text-muted">
+      <small>💡 Fun Fact: The average menstrual cycle is around 28 days — but anything from 21 to 35 is considered normal!</small>
     </div>
-</body>
-</html>
+  </div>
+</div>
+{% endblock %}

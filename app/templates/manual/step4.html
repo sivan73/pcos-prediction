@@ -1,36 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About Your Cycle</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body class="onboarding">
-    <div class="container">
-        <h1>🩸 Your Monthly Cycle</h1>
-        <p class="tagline">Step 3: Just a few questions about your periods — no worries, it’s all confidential.</p>
-
-        <form action="{{ url_for('step5') }}" method="POST" class="form-step">
-            <div class="input-group">
-                <label for="cycle_regular">Is your cycle regular?</label>
-                <select id="cycle_regular" name="cycle_regular" required>
-                    <option value="">Select an option</option>
-                    <option value="1">Yes, it's regular</option>
-                    <option value="0">No, it's irregular</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label for="cycle_length">How many days does your cycle usually last?</label>
-                <input type="number" id="cycle_length" name="cycle_length" placeholder="e.g., 28" min="15" max="45" required>
-            </div>
-
-            <button type="submit" class="next-btn">Next →</button>
-        </form>
-
-        <div class="trivia">
-            <p>💡 Fun Fact: The average menstrual cycle is around 28 days — but anything from 21 to 35 is considered normal!</p>
-        </div>
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow">
+  <div class="card-body">
+    <h4 class="mb-3">Step 4: Lifestyle & Symptoms</h4>
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label">Have you experienced weight gain?</label>
+        <select class="form-select" name="weight_gain" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Have you noticed excess hair growth?</label>
+        <select class="form-select" name="hair_growth" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Any skin darkening?</label>
+        <select class="form-select" name="skin_darkening" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Do you have pimples?</label>
+        <select class="form-select" name="pimples" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Do you eat fast food frequently?</label>
+        <select class="form-select" name="fast_food" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Do you exercise regularly?</label>
+        <select class="form-select" name="exercise" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Next &rarr;</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

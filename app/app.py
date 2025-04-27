@@ -144,6 +144,30 @@ def predict():
         'O-': 15, 'O+': 16, 'AB-': 17, 'AB+': 18
     }
 
+@app.route('/questionnaire/<int:step>', methods=['GET', 'POST'])
+def questionnaire(step):
+    if request.method == 'POST':
+        for key in request.form:
+            session[key] = request.form[key]
+        
+        if step == 8:
+            return redirect(url_for('summary'))
+        return redirect(url_for('questionnaire', step=step+1))
+    
+    # Pass progress info to template
+    return render_template(
+        f'step{step}.html',
+        current_step=step,
+        total_steps=8
+    )
+
+# Add new summary route
+@app.route('/summary')
+def summary():
+    return render_template('summary.html')
+
+
+
     # Collect user input from the form
     for feature in feature_names:
         value = session.get(feature, None)
