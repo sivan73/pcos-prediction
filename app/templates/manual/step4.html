@@ -1,59 +1,60 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="card shadow">
-  <div class="card-body">
-    <h4 class="mb-3">Step 4: Lifestyle & Symptoms</h4>
-    <form method="POST">
-      <div class="mb-3">
-        <label class="form-label">Have you experienced weight gain?</label>
-        <select class="form-select" name="weight_gain" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
+<h2>Step 4: Lifestyle and Symptoms</h2>
+<form method="POST" class="form-style">
+    <div class="form-group">
+        <label for="pimples">Pimples Present?</label>
+        <select name="pimples" id="pimples" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
         </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Have you noticed excess hair growth?</label>
-        <select class="form-select" name="hair_growth" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
+    </div>
+
+    <div class="form-group">
+        <label for="fast_food">Fast Food Consumption?</label>
+        <select name="fast_food" id="fast_food" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
         </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Any skin darkening?</label>
-        <select class="form-select" name="skin_darkening" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
+    </div>
+
+    <div class="form-group">
+        <label for="skin_darkening">Skin Darkening?</label>
+        <select name="skin_darkening" id="skin_darkening" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
         </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Do you have pimples?</label>
-        <select class="form-select" name="pimples" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
+    </div>
+
+    <div class="form-group">
+        <label for="hair_growth">Hair Growth (male-pattern)?</label>
+        <select name="hair_growth" id="hair_growth" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
         </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Do you eat fast food frequently?</label>
-        <select class="form-select" name="fast_food" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
+    </div>
+
+    <div class="form-group">
+        <label for="weight_gain">Weight Gain?</label>
+        <select name="weight_gain" id="weight_gain" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
         </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Do you exercise regularly?</label>
-        <select class="form-select" name="exercise" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
+    </div>
+
+    <div class="form-group">
+        <label for="hair_loss">Hair Loss?</label>
+        <select name="hair_loss" id="hair_loss" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
         </select>
-      </div>
-      <button type="submit" class="btn btn-primary">Next &rarr;</button>
-    </form>
-  </div>
-</div>
-{% endblock %}
+    </div>
+
+    <div class="form-group">
+        <label for="exercise">Regular Exercise?</label>
+        <select name="exercise" id="exercise" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn">Next</button>
+</form>

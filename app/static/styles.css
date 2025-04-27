@@ -59,3 +59,50 @@ h1 {
 .next-btn:hover {
     background: #c2185b;
 }
+
+.welcome-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #fce4ec, #f8bbd0); /* soft pink gradient */
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    text-align: center;
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+}
+
+h1 {
+    margin-bottom: 1rem;
+    color: #c2185b; /* deep pink for headings */
+    font-size: 2rem;
+}
+
+p {
+    color: #6a1b9a; /* a soft purple for body text */
+    margin-bottom: 1.5rem;
+}
+
+.btn {
+    background-color: #f06292; /* rose pink */
+    color: white;
+    padding: 0.9rem 2rem;
+    margin: 0.75rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #ec407a; /* darker pink on hover */
+    transform: scale(1.05);
+}

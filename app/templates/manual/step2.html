@@ -1,16 +1,25 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="card shadow">
+<div class="card shadow p-4">
   <div class="card-body">
     <h4 class="mb-3">Step 2: Physical Measurements</h4>
     <form method="POST">
       <div class="mb-3">
         <label class="form-label">Height (cm)</label>
-        <input type="number" class="form-control" name="height" min="120" max="200" step="0.1" required>
+        <input type="number" class="form-control" name="height" min="50" max="250" required>
       </div>
       <div class="mb-3">
         <label class="form-label">Weight (kg)</label>
-        <input type="number" class="form-control" name="weight" min="30" max="200" step="0.1" required>
+        <input type="number" class="form-control" name="weight" min="30" max="200" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Waist (inches)</label>
+        <input type="number" class="form-control" name="waist" min="20" max="60" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Hip (inches)</label>
+        <input type="number" class="form-control" name="hip" min="20" max="60" required>
       </div>
       <button type="submit" class="btn btn-primary">Next &rarr;</button>
     </form>

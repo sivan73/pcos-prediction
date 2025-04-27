@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Femura Health Companion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="welcome-page">
+    <div class="container">
+        <h1>Welcome to Femura - your personal PCOS Prediction Companion</h1>
+        <p>Please choose how you'd like to proceed:</p>
+        <form method="POST">
+            <button type="submit" name="input_method" value="manual" class="btn">Fill Information Manually</button>
+            <button type="submit" name="input_method" value="upload" class="btn">Upload Medical Report</button>
+        </form>
+    </div>
+</body>
+</html>

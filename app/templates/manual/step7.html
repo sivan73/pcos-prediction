@@ -2,15 +2,27 @@
 {% block content %}
 <div class="card shadow">
   <div class="card-body">
-    <h4 class="mb-3">Step 7: Additional Health Metrics</h4>
+    <h4 class="mb-3">Step 7: Follicular & Ultrasound Details</h4>
     <form method="POST">
       <div class="mb-3">
-        <label class="form-label">Vitamin D3 (ng/mL)</label>
-        <input type="number" class="form-control" name="vitamin_d3" min="0" max="100" step="0.1" required>
+        <label class="form-label">Do you have multiple follicles in ovaries?</label>
+        <select class="form-select" name="multiple_follicles" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
       </div>
       <div class="mb-3">
-        <label class="form-label">Pulse Rate (bpm)</label>
-        <input type="number" class="form-control" name="pulse_rate" min="40" max="180" required>
+        <label class="form-label">Presence of ovarian cysts?</label>
+        <select class="form-select" name="ovarian_cysts" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Endometrial thickness (mm)</label>
+        <input type="number" class="form-control" name="endometrial_thickness" min="1" max="20" step="0.1" required>
       </div>
       <button type="submit" class="btn btn-primary">Next &rarr;</button>
     </form>
