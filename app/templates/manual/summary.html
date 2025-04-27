@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Review & Predict</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="summary">
+  <div class="container">
+    <h1>🔍 Review Your Details</h1>
+    <p class="tagline">Make sure everything looks good before we proceed.</p>
+
+    <div class="review-section">
+      {% for key, value in session_data.items() %}
+        <div class="review-item">
+          <strong>{{ key.replace("_", " ").title() }}:</strong> {{ value }}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="actions">
+      <a href="{{ url_for('manual_step1') }}" class="back-btn">← Edit Info</a>
+      <form action="{{ url_for('predict_manual') }}" method="POST" style="display:inline;">
+        <button type="submit" class="next-btn">🔮 Predict My PCOS Risk</button>
+      </form>
+    </div>
+
+    <div class="trivia">
+      <p>🧠 Trivia: PCOS affects nearly 1 in 5 women in India. Early detection can be life-changing. Let’s find out how you’re doing!</p>
+    </div>
+  </div>
+</body>
+</html>

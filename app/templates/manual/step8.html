@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Visible Signs</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="onboarding">
+  <div class="container">
+    <h1>👀 Visible Signs</h1>
+    <p class="tagline">Step 7: A few more clues your body might be showing.</p>
+
+    <form action="{{ url_for('summary') }}" method="POST" class="form-step">
+      <div class="input-group">
+        <label for="pimples">Do you often have acne or pimples?</label>
+        <select id="pimples" name="pimples" required>
+          <option value="" disabled selected>Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="hair_loss">Are you experiencing hair thinning or hair loss?</label>
+        <select id="hair_loss" name="hair_loss" required>
+          <option value="" disabled selected>Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="skin_darkening">Is there darkening of skin around the neck/armpits?</label>
+        <select id="skin_darkening" name="skin_darkening" required>
+          <option value="" disabled selected>Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="weight_gain">Have you noticed unexplained weight gain?</label>
+        <select id="weight_gain" name="weight_gain" required>
+          <option value="" disabled selected>Select</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <button type="submit" class="next-btn">Finish →</button>
+    </form>
+
+    <div class="trivia">
+      <p>💡 Trivia Time: Over 70% of PCOS-affected women experience acne or visible skin changes. It’s more common than you think!</p>
+    </div>
+  </div>
+</body>
+</html>

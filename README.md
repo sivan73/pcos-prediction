@@ -55,6 +55,8 @@ Explainability: Each prediction is explained for the risk score with the major c
 
 Synthetic wearable data (to be added) simulates future integration with real devices.
 
+
+
 ## License
 
 This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).

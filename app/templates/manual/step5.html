@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Life & Health</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="onboarding">
+    <div class="container">
+        <h1>💍 Life & Health</h1>
+        <p class="tagline">Step 4: A few personal details to better understand your health background.</p>
+
+        <form action="{{ url_for('step6') }}" method="POST" class="form-step">
+            <div class="input-group">
+                <label for="marriage_years">Are you married?</label>
+                <select id="marriage_years" name="marriage_years" required>
+                    <option value="">Select an option</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes, recently (≤1 year)</option>
+                    <option value="2">Yes, for a while (≥2 years)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="pregnant">Are you currently pregnant?</label>
+                <select id="pregnant" name="pregnant" required>
+                    <option value="">Select an option</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="abortions">Have you experienced any abortions?</label>
+                <input type="number" id="abortions" name="abortions" min="0" max="10" placeholder="Enter number" required>
+            </div>
+
+            <button type="submit" class="next-btn">Next →</button>
+        </form>
+
+        <div class="trivia">
+            <p>🧠 Did you know? PCOS can affect fertility, but with early care, many women go on to have healthy pregnancies!</p>
+        </div>
+    </div>
+</body>
+</html>

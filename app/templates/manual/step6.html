@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hormonal Harmony</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="onboarding">
+    <div class="container">
+        <h1>🔬 Hormonal Harmony</h1>
+        <p class="tagline">Step 5: If you've had a hormone test, help us decode the puzzle 🧩</p>
+
+        <form action="{{ url_for('step7') }}" method="POST" class="form-step">
+            <div class="input-group">
+                <label for="fsh">FSH (Follicle-Stimulating Hormone) <span class="tooltip" title="Supports ovarian follicle growth. Typically tested on day 2-5 of cycle.">❔</span></label>
+                <input type="number" step="0.01" id="fsh" name="fsh" placeholder="e.g., 5.4" required>
+            </div>
+
+            <div class="input-group">
+                <label for="lh">LH (Luteinizing Hormone) <span class="tooltip" title="Triggers ovulation. Measured alongside FSH for hormonal balance.">❔</span></label>
+                <input type="number" step="0.01" id="lh" name="lh" placeholder="e.g., 6.8" required>
+            </div>
+
+            <div class="input-group">
+                <label for="tsh">TSH (Thyroid Stimulating Hormone) <span class="tooltip" title="Manages thyroid function. Affects energy and fertility.">❔</span></label>
+                <input type="number" step="0.01" id="tsh" name="tsh" placeholder="e.g., 2.5" required>
+            </div>
+
+            <div class="input-group">
+                <label for="amh">AMH (Anti-Müllerian Hormone) <span class="tooltip" title="Indicates ovarian reserve. Helpful in PCOS screening.">❔</span></label>
+                <input type="number" step="0.01" id="amh" name="amh" placeholder="e.g., 3.1" required>
+            </div>
+
+            <div class="input-group">
+                <label for="prl">PRL (Prolactin) <span class="tooltip" title="Too much PRL may disrupt ovulation. Measured to rule out hormonal imbalances.">❔</span></label>
+                <input type="number" step="0.01" id="prl" name="prl" placeholder="e.g., 15.0" required>
+            </div>
+
+            <div class="input-group">
+                <label for="prog">PRG (Progesterone) <span class="tooltip" title="Important for menstruation and pregnancy. Measured during luteal phase.">❔</span></label>
+                <input type="number" step="0.01" id="prog" name="prog" placeholder="e.g., 8.2" required>
+            </div>
+
+            <button type="submit" class="next-btn">Next →</button>
+        </form>
+
+        <div class="trivia">
+            <p>✨ Fun Fact: Your FSH/LH ratio is one of the key hormonal markers used to detect PCOS early. The ideal range? About 1:1!</p>
+        </div>
+    </div>
+</body>
+</html>

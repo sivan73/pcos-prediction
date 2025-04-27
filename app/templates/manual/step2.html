@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tell Us About You</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="onboarding">
+    <div class="container">
+        <h1>✨ Let's Get to Know You!</h1>
+        <p class="tagline">Step 1: Just your name and age for now 🌿</p>
+
+        <form action="{{ url_for('step3') }}" method="POST" class="form-step">
+            <div class="input-group">
+                <label for="name">👤 Your Name</label>
+                <input type="text" id="name" name="name" placeholder="e.g., Ananya" required>
+            </div>
+
+            <div class="input-group">
+                <label for="age">🎂 Your Age (in years)</label>
+                <input type="number" id="age" name="age" min="10" max="60" placeholder="e.g., 24" required>
+            </div>
+
+            <button type="submit" class="next-btn">Next →</button>
+        </form>
+
+        <div class="trivia">
+            <p>🎉 Did you know? Women under 30 are often diagnosed with PCOS more due to irregular cycles, but early care leads to better outcomes!</p>
+        </div>
+    </div>
+</body>
+</html>

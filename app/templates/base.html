@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PCOS Companion</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🌸 PCOS Health Companion</h1>
+      <p class="subtitle">Your Personalized Early Support System</p>
+    </header>
+
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <footer>
+      <p>&copy; 2025 PCOS Prediction App | Designed with 💖</p>
+    </footer>
+  </div>
+</body>
+</html>

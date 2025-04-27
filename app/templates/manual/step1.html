@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start Your PCOS Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="onboarding">
+    <div class="container">
+        <h1>👋 Hello there!</h1>
+        <p class="tagline">Let's begin your journey to better health 💫</p>
+
+        <form action="{{ url_for('step2') }}" method="POST" class="form-choice">
+            <h2>How would you like to proceed?</h2>
+            
+            <label>
+                <input type="radio" name="input_method" value="manual" required>
+                Fill out health details step-by-step 📝
+            </label>
+            
+            <label>
+                <input type="radio" name="input_method" value="upload">
+                Upload a medical report (PDF) 📄
+            </label>
+
+            <button type="submit" class="next-btn">Let's Go →</button>
+        </form>
+    </div>
+</body>
+</html>

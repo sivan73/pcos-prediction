@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your PCOS Risk Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .lime-exp iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body class="result">
+  <div class="container">
+    <h1>🎉 Your Results Are Ready!</h1>
+    <div class="result-box">
+      <p class="predict-label">Prediction:</p>
+      <h2 class="prediction">{{ prediction }}</h2>
+      <p class="confidence">Confidence: <strong>{{ probability }}</strong></p>
+    </div>
+
+    <div class="lime-exp">
+      <h3>🧠 Why this prediction?</h3>
+      <div>{{ explanation|safe }}</div>
+    </div>
+
+    <div class="result-actions">
+      <a href="{{ url_for('manual_step1') }}" class="back-btn">🔄 Try Again</a>
+      <a href="{{ url_for('index') }}" class="next-btn">🏠 Home</a>
+    </div>
+
+    <div class="trivia">
+      <p>💡 Trivia: Lifestyle changes like regular exercise, balanced diet, and sleep can significantly reduce PCOS symptoms. You're already taking the first step. 💪</p>
+    </div>
+  </div>
+</body>
+</html>
