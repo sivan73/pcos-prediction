@@ -153,8 +153,8 @@ def step4():
 @app.route('/step5', methods=['GET', 'POST'])
 def step5():
     if request.method == 'POST':
-        session['Pulse_ratebpm'] = float(request.form.get('pulse_rate'))
-        session['RR_breathsmin'] = float(request.form.get('respiratory_rate'))
+        session['Pulse_ratebpm'] = int(request.form.get('pulse_rate'))
+        session['RR_breathsmin'] = int(request.form.get('respiratory_rate'))
         session['BP__Systolic_mmHg'] = float(request.form.get('bp_systolic'))
         session['BP__Diastolic_mmHg'] = float(request.form.get('bp_diastolic'))
         session['RBSmgdl'] = float(request.form.get('blood_glucose'))
@@ -209,6 +209,17 @@ def summary():
 @app.route('/predict', methods=['POST'])
 def predict():
     user_input = []
+    # Blood group mapping
+    blood_group_mapping = {
+        'A-': 11,
+        'A+': 12,
+        'B-': 13,
+        'B+': 14,
+        'O-': 15,
+        'O+': 16,
+        'AB-': 17,
+        'AB+': 18
+    }
 
     for feature in feature_names:
         value = session.get(feature)
