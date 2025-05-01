@@ -5,30 +5,44 @@
     <h4 class="mb-3">Step 6: Hormonal Test Results</h4>
     <form method="POST">
       <div class="mb-3">
-        <label class="form-label">FSH/LH Ratio</label>
-        <input type="number" class="form-control" name="fs_hl_ratio" min="0.1" max="10" step="0.01" required>
+        <label class="form-label">AMH (ng/mL)</label>
+        <input type="number" class="form-control" name="amh" min="0" step="0.01" required>
       </div>
       <div class="mb-3">
         <label class="form-label">Hemoglobin (g/dL)</label>
-        <input type="number" class="form-control" name="hemoglobin" min="6" max="20" step="0.1" required>
+        <input type="number" class="form-control" name="hb" min="0" step="0.1" required>
       </div>
       <div class="mb-3">
-        <label class="form-label">Vitamin D3 (ng/mL)</label>
-        <input type="number" class="form-control" name="vitamin_d3" min="0" max="100" step="0.1" required>
+        <label class="form-label">Progesterone (ng/mL)</label>
+        <input type="number" class="form-control" name="prg" min="0" step="0.1" required>
       </div>
       <div class="mb-3">
-        <label class="form-label">Blood Group</label>
-        <select class="form-select" name="blood_group" required>
-          <option value="">Select</option>
-          <option value="A+">A+</option>
-          <option value="A-">A-</option>
-          <option value="B+">B+</option>
-          <option value="B-">B-</option>
-          <option value="O+">O+</option>
-          <option value="O-">O-</option>
-          <option value="AB+">AB+</option>
-          <option value="AB-">AB-</option>
-        </select>
+        <label class="form-label">Prolactin (ng/mL)</label>
+        <input type="number" class="form-control" name="prl" min="0" step="0.1" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">FSH (mIU/mL)</label>
+        <input type="number" class="form-control" name="fsh" min="0" step="0.1" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">LH (mIU/mL)</label>
+        <input type="number" class="form-control" name="lh" min="0" step="0.1" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">FSH/LH Ratio</label>
+        <input type="number" class="form-control" name="fsh_lh" min="0.1" step="0.01" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">TSH (mIU/L)</label>
+        <input type="number" class="form-control" name="tsh" min="0" step="0.1" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">β-hCG I (mIU/mL)</label>
+        <input type="number" class="form-control" name="i_beta_hcg" min="0" step="0.1" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">β-hCG II (mIU/mL)</label>
+        <input type="number" class="form-control" name="ii_beta_hcg" min="0" step="0.1" required>
       </div>
       <button type="submit" class="btn btn-primary">Next &rarr;</button>
     </form>

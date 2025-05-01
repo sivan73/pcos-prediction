@@ -18,17 +18,17 @@
     <h1>🎉 Your Results Are Ready!</h1>
     <div class="result-box">
       <p class="predict-label">Prediction:</p>
-      <h2 class="prediction">{{ prediction }}</h2>
-      <p class="confidence">Confidence: <strong>{{ probability }}</strong></p>
+      <h2 class="prediction">{{ result }}</h2>
+      <p class="confidence">Risk Score: <strong>{{ (risk_score * 100) | round(2) }}%</strong></p>
     </div>
 
     <div class="lime-exp">
       <h3>🧠 Why this prediction?</h3>
-      <div>{{ explanation|safe }}</div>
+      <div>{{ lime_html|safe }}</div>
     </div>
 
     <div class="result-actions">
-      <a href="{{ url_for('index') }}" class="next-btn">🏠 Home</a>
+      <a href="{{ url_for('home') }}" class="next-btn">🏠 Home</a>
     </div>
 
     <div class="trivia">

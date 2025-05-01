@@ -5,24 +5,28 @@
     <h4 class="mb-3">Step 7: Follicular & Ultrasound Details</h4>
     <form method="POST">
       <div class="mb-3">
-        <label class="form-label">Do you have multiple follicles in ovaries?</label>
-        <select class="form-select" name="multiple_follicles" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
+        <label class="form-label">No. of Right Ovary Follicles</label>
+        <input type="number" class="form-control" name="follicle_no_r" min="0" step="1" required>
       </div>
       <div class="mb-3">
-        <label class="form-label">Presence of ovarian cysts?</label>
-        <select class="form-select" name="ovarian_cysts" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
+        <label class="form-label">No. of Left Ovary Follicles</label>
+        <input type="number" class="form-control" name="follicle_no_l" min="0" step="1" required>
       </div>
       <div class="mb-3">
-        <label class="form-label">Endometrial thickness (mm)</label>
-        <input type="number" class="form-control" name="endometrial_thickness" min="1" max="20" step="0.1" required>
+        <label class="form-label">Avg. Follicle Size (Right) in mm</label>
+        <input type="number" class="form-control" name="avg_f_size_r" min="0" step="0.1" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Avg. Follicle Size (Left) in mm</label>
+        <input type="number" class="form-control" name="avg_f_size_l" min="0" step="0.1" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Cycle RI (Resistance Index)</label>
+        <input type="number" class="form-control" name="cycle_ri" min="0" step="0.01" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Endometrium Thickness (mm)</label>
+        <input type="number" class="form-control" name="endometrium" min="1" step="0.1" required>
       </div>
       <button type="submit" class="btn btn-primary">Next &rarr;</button>
     </form>

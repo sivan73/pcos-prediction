@@ -3,32 +3,19 @@
 <div class="card shadow">
   <div class="card-body">
     <h4 class="mb-3">Step 8: Review & Confirm</h4>
-    <form method="POST">
-      <div class="mb-3">
-        <label class="form-label">Hair Loss</label>
-        <select class="form-select" name="hair_loss" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
+    <form method="POST" action="{{ url_for('predict') }}">
+      <p>Please review the information below before submitting:</p>
+      <ul class="list-group">
+        {% for key, value in session.items() %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>{{ key.replace('_', ' ') }}</strong>
+            <span>{{ value }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn btn-success">Confirm & Submit &rarr;</button>
       </div>
-      <div class="mb-3">
-        <label class="form-label">Skin Darkening</label>
-        <select class="form-select" name="skin_darkening" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Weight Gain</label>
-        <select class="form-select" name="weight_gain" required>
-          <option value="">Select</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-success">Submit &rarr;</button>
     </form>
   </div>
 </div>

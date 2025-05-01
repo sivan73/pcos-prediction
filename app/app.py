@@ -62,7 +62,7 @@ def step0():
         return redirect(url_for('step1'))
     return render_template('manual/step0.html', current_step=0, total_steps=8)
 
-
+# step 1: Age and maritial details
 @app.route('/step1', methods=['GET', 'POST'])
 def step1():
     if request.method == 'POST':
@@ -196,18 +196,15 @@ def step7():
 # Step 8: Review & Confirm
 @app.route('/step8', methods=['GET', 'POST'])
 def step8():
-    if request.method == 'POST':
-        return redirect(url_for('summary'))
+    
     return render_template('manual/step8.html', current_step=8, total_steps=8)
 
-# Summary page
-@app.route('/summary')
-def summary():
-    return render_template('summary.html', session=session, feature_names=feature_names)
 
 # Prediction route
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def predict():
+    if request.method == 'GET':
+        return redirect(url_for('step8'))
     user_input = []
     # Blood group mapping
     blood_group_mapping = {
@@ -248,6 +245,10 @@ def predict():
     lime_html = explanation.as_html()
 
     return render_template('result.html', result=result, risk_score=risk_score, lime_html=lime_html)
+
+app.add_url_rule('/', endpoint='home')
+
+
 
 # Upload Report (Placeholder)
 @app.route('/upload', methods=['GET', 'POST'])

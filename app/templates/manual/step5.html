@@ -1,25 +1,60 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="card shadow">
+<div class="card shadow p-4">
   <div class="card-body">
-    <h4 class="mb-3">Step 5: Vital Signs</h4>
+    <h4 class="mb-3">Step 5: Vital Signs & Lab Results</h4>
     <form method="POST">
       <div class="mb-3">
-        <label class="form-label">Blood Pressure (Systolic)</label>
-        <input type="number" class="form-control" name="bp_systolic" min="80" max="200" required>
+        <label class="form-label" for="pulse_rate">Pulse Rate (bpm):</label>
+        <input type="number" class="form-control" name="pulse_rate" id="pulse_rate" required min="1">
       </div>
+
       <div class="mb-3">
-        <label class="form-label">Blood Pressure (Diastolic)</label>
-        <input type="number" class="form-control" name="bp_diastolic" min="40" max="130" required>
+        <label class="form-label" for="respiratory_rate">Respiratory Rate (breaths/min):</label>
+        <input type="number" class="form-control" name="respiratory_rate" id="respiratory_rate" required min="1">
       </div>
+
       <div class="mb-3">
-        <label class="form-label">Pulse Rate (bpm)</label>
-        <input type="number" class="form-control" name="pulse_rate" min="40" max="180" required>
+        <label class="form-label" for="bp_systolic">BP Systolic (mmHg):</label>
+        <input type="number" step="any" class="form-control" name="bp_systolic" id="bp_systolic" required min="1">
       </div>
+
       <div class="mb-3">
-        <label class="form-label">Blood Glucose (mg/dL)</label>
-        <input type="number" class="form-control" name="blood_glucose" min="50" max="300" required>
+        <label class="form-label" for="bp_diastolic">BP Diastolic (mmHg):</label>
+        <input type="number" step="any" class="form-control" name="bp_diastolic" id="bp_diastolic" required min="1">
       </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="blood_glucose">Blood Glucose (RBS mg/dL):</label>
+        <input type="number" step="any" class="form-control" name="blood_glucose" id="blood_glucose" required min="1">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="blood_group">Blood Group:</label>
+        <select class="form-select" name="blood_group" id="blood_group" required>
+          <option value="">-- Select --</option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="vitamin_d3">Vitamin D3 (ng/mL):</label>
+        <input type="number" step="any" class="form-control" name="vitamin_d3" id="vitamin_d3" required min="0">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="vitamin_b12">Vitamin B12 (pg/mL):</label>
+        <input type="number" step="any" class="form-control" name="vitamin_b12" id="vitamin_b12" required min="0">
+      </div>
+
       <button type="submit" class="btn btn-primary">Next &rarr;</button>
     </form>
   </div>
