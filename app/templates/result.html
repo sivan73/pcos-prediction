@@ -1,39 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Your PCOS Risk Result</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    .lime-exp iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      margin-top: 1rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCOS Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="result">
-  <div class="container">
-    <h1>🎉 Your Results Are Ready!</h1>
-    <div class="result-box">
-      <p class="predict-label">Prediction:</p>
-      <h2 class="prediction">{{ result }}</h2>
-      <p class="confidence">Risk Score: <strong>{{ (risk_score * 100) | round(2) }}%</strong></p>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>PCOS Prediction Result</h1>
+        </header>
+
+        <section class="result">
+            <h2>Prediction Result: <span>{{ result }}</span></h2>
+            <h3>Risk Score: <span>{{ risk_score }}%</span></h3>
+        </section>
+
+        <section class="dynamic-phrase">
+            <p>{{ dynamic_phrase }}</p>
+        </section>
+
+        <section class="explanation">
+            <h3>Feature Contributions (SHAP)</h3>
+            <div id="shap-chart">
+                <canvas id="shap-chart-canvas"></canvas>
+            </div>
+
+            <div class="shap-details">
+                <ul>
+                    {% for label, value in zip(shap_feature_labels, shap_feature_values) %}
+                        <li>{{ label }}: {{ value }}%</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="lime-explanation">
+                <h3>LIME Explanation</h3>
+                <img src="{{ url_for('static', filename=lime_plot_path) }}" alt="LIME Explanation">
+            </div>
+        </section>
+
+        <section class="download">
+            <a href="{{ url_for('static', filename=shap_plot_path) }}" download="shap_force_plot.png">
+                <button>Download SHAP Plot</button>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Femura. All rights reserved.</p>
+        </footer>
     </div>
 
-    <div class="lime-exp">
-      <h3>🧠 Why this prediction?</h3>
-      <div>{{ lime_html|safe }}</div>
-    </div>
-
-    <div class="result-actions">
-      <a href="{{ url_for('home') }}" class="next-btn">🏠 Home</a>
-    </div>
-
-    <div class="trivia">
-      <p>💡 Trivia: Lifestyle changes like regular exercise, balanced diet, and sleep can significantly reduce PCOS symptoms. You're already taking the first step. 💪</p>
-    </div>
-  </div>
+    <script>
+        // Display SHAP feature contributions in a pie chart
+        var ctx = document.getElementById('shap-chart-canvas').getContext('2d');
+        var shapChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: {{ shap_feature_labels|tojson }},
+                datasets: [{
+                    data: {{ shap_feature_values|tojson }},
+                    backgroundColor: ['#FF9999', '#66B3FF', '#99FF99', '#FFCC99', '#FFB6C1'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
