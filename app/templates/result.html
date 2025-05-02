@@ -1,89 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCOS Prediction Result</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <title>Your PCOS Risk Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body.result {
+      background-color: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #c06cb2;
+      font-size: 2rem;
+    }
+
+    .result-box {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .prediction {
+      font-size: 1.8rem;
+      color: #d63384;
+      font-weight: bold;
+    }
+
+    .confidence {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .dynamic-phrase {
+      background-color: #f8e1f4;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+      font-style: italic;
+      color: #6a1b9a;
+    }
+
+    .lime-exp {
+      margin-top: 2rem;
+    }
+
+    .lime-exp iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      display: none;
+    }
+
+    .lime-loader {
+      text-align: center;
+      color: #999;
+      font-size: 1.1rem;
+    }
+
+    .result-actions {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .next-btn {
+      background-color: #c06cb2;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .trivia {
+      background-color: #ffecf1;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-left: 5px solid #c06cb2;
+      font-size: 0.95rem;
+    }
+
+    .graph-toggle {
+      display: block;
+      margin: 1rem auto;
+      text-align: center;
+    }
+
+    .graph-toggle button {
+      background-color: #f3c6e0;
+      color: #4a155f;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
 </head>
+<body class="result">
+  <div class="container">
+    <h1>🎉 Your Results Are Ready!</h1>
 
-<body>
-    <div class="container">
-        <header>
-            <h1>PCOS Prediction Result</h1>
-        </header>
-
-        <section class="result">
-            <h2>Prediction Result: <span>{{ result }}</span></h2>
-            <h3>Risk Score: <span>{{ risk_score }}%</span></h3>
-        </section>
-
-        <section class="dynamic-phrase">
-            <p>{{ dynamic_phrase }}</p>
-        </section>
-
-        <section class="explanation">
-            <h3>Feature Contributions (SHAP)</h3>
-            <div id="shap-chart">
-                <canvas id="shap-chart-canvas"></canvas>
-            </div>
-
-            <div class="shap-details">
-                <ul>
-                    {% for label, value in zip(shap_feature_labels, shap_feature_values) %}
-                        <li>{{ label }}: {{ value }}%</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="lime-explanation">
-                <h3>LIME Explanation</h3>
-                <img src="{{ url_for('static', filename=lime_plot_path) }}" alt="LIME Explanation">
-            </div>
-        </section>
-
-        <section class="download">
-            <a href="{{ url_for('static', filename=shap_plot_path) }}" download="shap_force_plot.png">
-                <button>Download SHAP Plot</button>
-            </a>
-        </section>
-
-        <footer>
-            <p>&copy; 2025 Femura. All rights reserved.</p>
-        </footer>
+    <div class="result-box">
+      <p class="predict-label">Prediction:</p>
+      <h2 class="prediction">{{ result }}</h2>
+      <p class="confidence">Risk Score: <strong>{{ (risk_score * 100) | round(2) }}%</strong></p>
     </div>
 
-    <script>
-        // Display SHAP feature contributions in a pie chart
-        var ctx = document.getElementById('shap-chart-canvas').getContext('2d');
-        var shapChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: {{ shap_feature_labels|tojson }},
-                datasets: [{
-                    data: {{ shap_feature_values|tojson }},
-                    backgroundColor: ['#FF9999', '#66B3FF', '#99FF99', '#FFCC99', '#FFB6C1'],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2) + '%';
-                            }
-                        }
-                    }
-                }
-            }
+    <div class="dynamic-phrase">
+      {% if risk_score > 0.7 %}
+        Your results show a significant risk. It's not a diagnosis — but consider seeking professional medical advice. You're doing the right thing by checking early. 💜
+      {% elif risk_score > 0.4 %}
+        There are a few concerns. Staying informed and maintaining healthy routines is key. Keep going — you're not alone. 🌸
+      {% else %}
+        You seem mostly in the clear. Staying consistent with your wellness is the best gift to your future self. ✨
+      {% endif %}
+    </div>
+
+    <div class="lime-exp">
+      <h3>🧠 Why this prediction?</h3>
+      <div class="lime-loader">Loading LIME explanation... Please wait ⏳</div>
+      <iframe id="limeFrame"></iframe>
+    </div>
+
+    <div class="graph-toggle">
+      <button onclick="toggleAdvanced()">🔍 Toggle Advanced Explanations</button>
+    </div>
+
+    <div id="advancedGraphs" style="display:none; text-align:center; margin-top:1rem;">
+      <p>📊 Additional explanations will appear here (e.g., SHAP charts, contribution breakdowns).</p>
+      <!-- Future placeholders for SHAP pie chart or bar chart -->
+      <img src="{{ url_for('static', filename='shap_pie_placeholder.png') }}" alt="SHAP Pie Chart" style="max-width:80%; border-radius:8px;">
+    </div>
+
+    <div class="result-actions">
+      <a href="{{ url_for('home') }}" class="next-btn">🏠 Home</a>
+    </div>
+
+    <div class="trivia">
+      💡 Trivia: A 10% weight loss can improve ovulation and fertility for many women with PCOS. Even small lifestyle changes make a big difference. You're already on the path! 💪
+    </div>
+  </div>
+
+  <script>
+    const explanationId = "{{ explanation_id }}";
+
+    function pollLimeExplanation() {
+      fetch(`/get_lime_explanation/${explanationId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'ready') {
+            const frame = document.getElementById('limeFrame');
+            frame.srcdoc = data.html;
+            frame.style.display = 'block';
+            document.querySelector('.lime-loader').style.display = 'none';
+          } else {
+            setTimeout(pollLimeExplanation, 1500);
+          }
         });
-    </script>
+    }
+
+    function toggleAdvanced() {
+      const adv = document.getElementById('advancedGraphs');
+      adv.style.display = adv.style.display === 'none' ? 'block' : 'none';
+    }
+
+    window.onload = function () {
+      pollLimeExplanation();
+    };
+  </script>
 </body>
 </html>

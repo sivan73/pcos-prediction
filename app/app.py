@@ -1,17 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 import pickle
 import numpy as np
 import pandas as pd
 import lime
 import lime.lime_tabular
-import joblib
-import matplotlib.pyplot as plt
-from lime.lime_tabular import LimeTabularExplainer
-from catboost import CatBoostClassifier
-from sklearn.ensemble import RandomForestClassifier
-import shap
+import uuid
+from flask import make_response
+import threading
 import os
-
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -206,25 +202,26 @@ def step8():
     
     return render_template('manual/step8.html', current_step=8, total_steps=8)
 
-ensemble_model = pickle.load(open('../models/pcos_ensemble_model.pkl', 'rb'))
-# Load model and other components
-model = pickle.load(open('../models/pcos_ensemble_model.pkl', 'rb'))
-scaler = pickle.load(open('../models/pcos_scaler.pkl', 'rb'))
-feature_names = pickle.load(open('../models/pcos_feature_names.pkl', 'rb'))
-training_data = pickle.load(open('../models/pcos_training_data.pkl', 'rb'))
+lime_cache = {}
+
 
 # Prediction route
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'GET':
         return redirect(url_for('step8'))
-
     user_input = []
+    # Blood group mapping
     blood_group_mapping = {
-        'A-': 11, 'A+': 12, 'B-': 13, 'B+': 14,
-        'O-': 15, 'O+': 16, 'AB-': 17, 'AB+': 18
+        'A-': 11,
+        'A+': 12,
+        'B-': 13,
+        'B+': 14,
+        'O-': 15,
+        'O+': 16,
+        'AB-': 17,
+        'AB+': 18
     }
-
 
     for feature in feature_names:
         value = session.get(feature)
@@ -242,104 +239,45 @@ def predict():
     input_scaled = scaler.transform(input_df)
 
     prediction = model.predict(input_scaled)[0]
-    risk_score = round(model.predict_proba(input_scaled)[0][1] * 100, 2)
-    result = "PCOS Detected" if prediction == 1 else "No PCOS Detected"
+    risk_score = model.predict_proba(input_scaled)[0][1]
+    result = "PCOS Risk Detected" if prediction == 1 else "No PCOS Risk Detected"
 
-    # Dynamic phrase based on risk
-    if risk_score >= 80:
-        dynamic_phrase = "You may be at high risk. Please consult a gynecologist for detailed screening."
-    elif risk_score >= 50:
-        dynamic_phrase = "You may be at moderate risk. It is advised to monitor your health and consult a doctor."
-    else:
-        dynamic_phrase = "Your risk appears to be low. Maintain a healthy lifestyle and stay aware."
+    # Generate unique ID for this prediction session
+    explanation_id = str(uuid.uuid4())
+    session['explanation_id'] = explanation_id
 
-    # LIME explanation (image)
+    # Store for LIME use
+    session['input_scaled'] = input_scaled.tolist()
+    session['prediction_result'] = result
+    session['risk_score'] = risk_score
+
+    # Start background LIME generation using global cache
+    threading.Thread(target=generate_lime, args=(input_scaled[0], explanation_id)).start()
+
+    return render_template('result.html', result=result, risk_score=risk_score, explanation_id=explanation_id)
+
+# Background LIME generation
+def generate_lime(data_row, explanation_id):
     explanation = explainer.explain_instance(
-        data_row=input_scaled[0],
+        data_row=data_row,
         predict_fn=model.predict_proba,
-        num_features=5
+        num_features=8
     )
-    lime_plot_path = 'lime_plot.png'
-    explanation.save_to_file(os.path.join('static', lime_plot_path))
-    os.makedirs(os.path.join('static'), exist_ok=True)
-    static_dir = os.path.join('static')
-    explanation.save_to_file(os.path.join(static_dir, lime_plot_path))
-
-    user_input = [float(x) for x in request.form.values()]
-    input_scaled = scaler.transform([user_input])
-    # Predict
-    prediction = ensemble_model.predict(input_scaled)[0]
-    prediction_proba = ensemble_model.predict_proba(input_scaled)[0][1]
-    risk_score = round(prediction_proba * 100, 2)
-
-    # Dynamic phrase logic
-    if risk_score >= 80:
-        dynamic_phrase = "High risk. Please consult a doctor soon."
-    elif risk_score >= 50:
-        dynamic_phrase = "Moderate risk. Monitoring is advised."
-    else:
-        dynamic_phrase = "Low risk. Stay healthy!"
+    lime_cache[explanation_id] = explanation.as_html()
 
 
-    input_data = [float(request.form.get(f)) for f in feature_names]
-    user_df = pd.DataFrame([input_data], columns=feature_names)
-    scaled_input = scaler.transform(user_df)
     
-    # Predict
-    prediction_proba = model.predict_proba(scaled_input)[0][1]
-    prediction_label = model.predict(scaled_input)[0]
-    session['input_data'] = input_data
-    session['prediction_proba'] = prediction_proba
-    session['prediction_label'] = int(prediction_label)
-    
-
-    input_data = session.get('input_data')
-    prediction_proba = session.get('prediction_proba')
-    prediction_label = session.get('prediction_label')
-
-    if not input_data:
-        return redirect(url_for('index'))
-
-    user_df = pd.DataFrame([input_data], columns=feature_names)
-    scaled_input = scaler.transform(user_df)
-
-    # SHAP pie chart
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(training_data)
-    shap_input_value = explainer.shap_values(scaled_input)[1][0]
-    top_indices = np.argsort(np.abs(shap_input_value))[::-1][:5]
-    top_features = [feature_names[i] for i in top_indices]
-    top_contributions = [shap_input_value[i] for i in top_indices]
-
-    fig, ax = plt.subplots()
-    ax.pie(np.abs(top_contributions), labels=top_features, autopct='%1.1f%%', startangle=90)
-    ax.axis('equal')
-    pie_chart_path = 'static/images/shap_pie.png'
-    os.makedirs('static/images', exist_ok=True)
-    plt.savefig(pie_chart_path)
-    plt.close()
-
-    # SHAP summary
-    shap.summary_plot(shap_values[1], training_data, feature_names=feature_names, show=False)
-    summary_path = 'static/images/shap_summary.png'
-    plt.savefig(summary_path)
-    plt.close()
-
-    # LIME explanation
-    lime_explainer = lime.lime_tabular.LimeTabularExplainer(
-        training_data.values, feature_names=feature_names, class_names=['No PCOS', 'PCOS'], discretize_continuous=True)
-    lime_exp = lime_explainer.explain_instance(scaled_input[0], model.predict_proba, num_features=5)
-    lime_html_path = 'static/lime_explanation.html'
-    lime_exp.save_to_file(lime_html_path)
-
-    return render_template('result.html',
-                           prediction_proba=round(prediction_proba * 100, 2),
-                           prediction_label=prediction_label,
-                           pie_chart=pie_chart_path,
-                           summary_plot=summary_path,
-                           lime_html=lime_html_path)
+# Async route to fetch LIME
+@app.route('/get_lime_explanation/<explanation_id>')
+def get_lime_explanation(explanation_id):
+    lime_html = lime_cache.get(explanation_id)
+    if lime_html:
+        return jsonify({'status': 'ready', 'html': lime_html})
+    return jsonify({'status': 'loading'})
 
 
+
+app.add_url_rule('/', endpoint='home')
 
 
 # Upload Report (Placeholder)
