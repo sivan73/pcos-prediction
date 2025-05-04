@@ -2,6 +2,7 @@
 
 A predictive web-based tool for identifying early-stage risk of Polycystic Ovary Syndrome (PCOS) using CatBoost and XGBoost models, enhanced with SHAP explainability. Built to support proactive health decisions before the onset of symptoms.
 
+[![License: CC BY-NC 4.0](https://licensebuttons.net/l/by-nc/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc/4.0/)
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
 ![License](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey)
 ![Flask](https://img.shields.io/badge/Backend-Flask-orange)
