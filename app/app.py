@@ -6,6 +6,8 @@ import lime
 import lime.lime_tabular
 import uuid
 from flask import make_response
+from werkzeug.utils import secure_filename
+from flask import current_app
 import threading
 import os
 
@@ -284,8 +286,15 @@ app.add_url_rule('/', endpoint='home')
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_report():
     if request.method == 'POST':
-        session['file_data'] = request.files['report_file']
-        return redirect(url_for('summary'))
+        file = request.files.get('report_file')
+        if file and file.filename != '':
+            filename = secure_filename(file.filename)
+            upload_path = os.path.join(current_app.root_path, 'uploads', filename)
+            file.save(upload_path)
+            session['../app/uploads'] = upload_path
+            return redirect(url_for('summary'))
+        else:
+            flash("Please upload a valid file.")
     return render_template('upload_report.html')
 
 if __name__ == '__main__':

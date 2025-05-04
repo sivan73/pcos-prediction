@@ -1,0 +1,18 @@
+<!-- templates/upload_report.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Medical Report - Femura</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="upload-page">
+    <div class="container">
+        <h2>Upload Your Medical Report</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="report_file" required>
+            <button type="submit" class="btn">Upload and Continue</button>
+        </form>
+    </div>
+</body>
+</html>
