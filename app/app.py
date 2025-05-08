@@ -263,7 +263,7 @@ def generate_lime(data_row, explanation_id):
     explanation = explainer.explain_instance(
         data_row=data_row,
         predict_fn=model.predict_proba,
-        num_features=8
+        num_features=10
     )
     lime_cache[explanation_id] = explanation.as_html()
 
